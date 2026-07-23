@@ -426,7 +426,6 @@ def save_polydata(
         raise IOError("." + file_extension + " is not supported by FURY")
 
     writer.SetFileName(file_name)
-    writer = set_input(writer, polydata)
     if color_array_name is not None and file_extension == "ply":
         writer.SetArrayName(color_array_name)
 
@@ -435,7 +434,8 @@ def save_polydata(
         writer.SetFileVersion(42)
     if binary:
         writer.SetFileTypeToBinary()
-    writer.Update()
+
+    writer = set_input(writer, polydata, update=False)
     writer.Write()
 
 

@@ -44,13 +44,15 @@ def remove_observer_from_actor(actor, id):
     mapper.RemoveObserver(id)
 
 
-def set_input(vtk_object, inp):
+def set_input(vtk_object, inp, update=True):
     """Set Generic input function which takes into account VTK 5 or 6.
 
     Parameters
     ----------
     vtk_object: vtk object
     inp: vtkPolyData or vtkImageData or vtkAlgorithmOutput
+    update: bool, optional
+        If True, calls vtk_object.Update().
 
     Returns
     -------
@@ -67,7 +69,10 @@ def set_input(vtk_object, inp):
         vtk_object.SetInputData(inp)
     elif isinstance(inp, AlgorithmOutput):
         vtk_object.SetInputConnection(inp)
-    vtk_object.Update()
+    
+    if update:
+        vtk_object.Update()
+        
     return vtk_object
 
 
